@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
+      <title>READ CSV</title>
+
+    <style>
+        table {
+            margin:0 auto;
+            border-collapse: collapse;
+            border: 1px solid black;
+        }
+        tr:nth-child(even) {
+            background: powderblue;
+        }
+        th, td {
+            padding: 10px 80px;
+        }
+        th {
+            border-bottom: 1px solid black;
+        }
+        nav {
+            margin:0 auto;
+            height: 50px;
+            text-align: center;            
+        }
+     
+    
+    </style>
+</head>
+
+<body>
+<nav>
+<h3>READ CSV</h3>
+</nav>
+        <script>
+            function openCSV(data) {
+                let allRows = data.split(/\r?\n|\r/);
+                let table = "<table>";
+                for(var singleRow=0; singleRow < allRows.length-1; singleRow++) {
+                    if(singleRow === 0) {
+                        table += "<thead>";
+                        table += "<tr>";
+                    }
+                    else { 
+                        table += "<tr>";
+                    }
+
+                    let rowCells = allRows[singleRow].split(',');
+                    for(var rowSingleCell=0; rowSingleCell < rowCells.length; rowSingleCell++){
+                        if(singleRow === 0){
+                            table += "<th>";
+                            table += rowCells[rowSingleCell];
+                            table += "</th>";
+                        }
+                        else {
+                            table += "<td>";
+                            table += rowCells[rowSingleCell];
+                            table += "</td>";
+                        }
+                    }
+                    if(singleRow === 0) {
+                        table += "</tr>";
+                        table += "</thead>";
+                        table += "<tbody>";
+                    }
+                    else {
+                        table += "</tr>";
+                    }
+                }
+                table += "</tbody>";
+                table += "</table>";
+                $("body").append(table);
+            }
+            $.ajax({
+                url: "presidents.csv",
+                dataType: "text",
+            }).done(openCSV);
+        
+        
+        </script>    
+</body>
+</html>
